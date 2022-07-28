@@ -101,7 +101,8 @@ String? generateSigningParams(String? certificateFile) {
   return '/a /f \"$certificateFile\" /p $certPass /v /fd sha256 /tr http://timestamp.digicert.com /td sha256';
 }
 
-const defaultUninstallPngUrl = 'https://fill/in/this/later';
+const defaultUninstallPngUrl =
+    'https://img.icons8.com/stickers/452/uninstall-programs.png';
 
 class PubspecParams {
   final String name;
@@ -239,7 +240,7 @@ Future<int> main(List<String> args) async {
   await runUtil('rcedit.exe', [
     '--set-icon',
     pubspec.appIcon,
-    path.join(buildDirectory, '${pubspec.name}.exe')
+    path.join(buildDirectory, '${pubspec.title}.exe')
   ]);
 
   // ls -r to get our file tree and create a temp dir
@@ -279,11 +280,12 @@ Future<int> main(List<String> args) async {
 
   // Prepare the release directory
   final releaseDir = Directory(pubspec.releaseDirectory);
-  if (await releaseDir.exists()) {
-    await releaseDir.delete(recursive: true);
+  // if (await releaseDir.exists()) {
+  //   await releaseDir.delete(recursive: true);
+  // }
+  if (!(await releaseDir.exists())) {
+    await releaseDir.create(recursive: true);
   }
-
-  await releaseDir.create(recursive: true);
 
   // Run syncReleases
   if (pubspec.releaseUrl != null) {
