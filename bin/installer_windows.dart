@@ -57,7 +57,7 @@ String stringOrThrow(dynamic? d, String err) {
 
 String parseVersion(dynamic? v) {
   final ver = stringOrThrow(v, 'Your app needs a version');
-  return ver.replaceFirst(RegExp(r'[-+].*$'), '').trimLeft();
+  return ver.replaceFirst(RegExp(r'[-+]'), '.').trimLeft();
 }
 
 String parseAuthor(dynamic? a) {
